@@ -56,8 +56,8 @@
                 </form>
             </div>
         </div>
-
         <script src="{{ repo("bower_components/jquery/dist/jquery.min.js") }}"></script>
         <script src="{{ asset("bootstrap/dist/js/bootstrap.min.js") }}"></script>
+        @include('sweetalert::alert')
     </body>
 </html>
