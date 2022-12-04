@@ -10,6 +10,13 @@
         <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.min.css')}}">
         <link rel="stylesheet" href="{{repo('dist/css/AdminLTE.min.css')}}">
         <link rel="stylesheet" href="{{repo('dist/css/skins/_all-skins.min.css')}}">
+        <style>
+            .table {
+                font-size: 10pt;
+                font-family: Tahoma;
+            }
+        </style>
+        @yield("css")
     </head>
     <body class="hold-transition skin-blue fixed sidebar-mini">
         <div class="wrapper">
@@ -45,9 +52,9 @@
                                 <i class="fa fa-home"></i> <span>Home</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="../widgets.html">
-                                <i class="fa fa-th"></i> <span>Widgets</span>
+                        <li class="@yield('ketidakhadiran')">
+                            <a href="{{ route('ketidakhadiran') }}">
+                                <i class="fa fa-clock-o"></i> <span>Ketidakhadiran</span>
                             </a>
                         </li>
                         <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
@@ -71,6 +78,7 @@
                     </ol>
                 </section>
                 <section class="content">
+                    @yield("content")
                 </section>
             </div>
             <footer class="main-footer">
@@ -87,5 +95,6 @@
         <script src="{{repo('bower_components/fastclick/lib/fastclick.js')}}"></script>
         <script src="{{repo('dist/js/adminlte.min.js')}}"></script>
         <script src="{{repo('dist/js/demo.js')}}"></script>
+        @yield("js")
     </body>
 </html>

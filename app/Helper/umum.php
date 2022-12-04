@@ -10,3 +10,6 @@ function repo($url) {
 function sesi($id) {
     return Session::get($id);
 }
+function proper($text) {
+    return ucwords(strtolower($text));
+}
