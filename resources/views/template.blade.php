@@ -15,6 +15,10 @@
                 font-size: 10pt;
                 font-family: Tahoma;
             }
+            .selected {
+                background-color: black;
+                color: white;
+            }
         </style>
         @yield("css")
     </head>
@@ -50,6 +54,11 @@
                         <li class="@yield('home')">
                             <a href="{{ route('home')}}">
                                 <i class="fa fa-home"></i> <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="@yield('sikap')">
+                            <a href="{{ route('sikap')}}">
+                                <i class="fa fa-book"></i> <span>Nilai Sikap</span>
                             </a>
                         </li>
                         <li class="@yield('ketidakhadiran')">

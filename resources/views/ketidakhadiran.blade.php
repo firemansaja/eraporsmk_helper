@@ -5,7 +5,7 @@
 
 @section("css")
     <style>
-        .table {margin: 3px;}
+        .table {margin: 3px;border-color: black}
         .table thead tr th {vertical-align: middle; text-align: center; padding: 2px}
         .table tfoot tr th {vertical-align: middle; text-align: center; padding: 1px}
         .table tbody tr td {vertical-align: middle; padding: 3px}
@@ -80,9 +80,9 @@
                                             <td class="text-center">{{ $pd->nisn }}</td>
                                             <td>{{ proper($pd->nama) }}</td>
                                             <td class="text-center">{{ getRombonganBelajarByID6($_GET["rombongan_belajar_id"])->nama }}</td>
-                                            <td><input type="number" name="sakit[]" class="form-control input-sm" min="0"></td>
-                                            <td><input type="number" name="izin[]" class="form-control input-sm" min="0"></td>
-                                            <td><input type="number" name="alpa[]" class="form-control input-sm" min="0"></td>
+                                            <td><input type="number" name="sakit[]" class="form-control input-sm" min="0" value="{{ absensi6($pd->anggota_rombel_id)->sakit }}"></td>
+                                            <td><input type="number" name="izin[]" class="form-control input-sm" min="0" value="{{ absensi6($pd->anggota_rombel_id)->izin }}"></td>
+                                            <td><input type="number" name="alpa[]" class="form-control input-sm" min="0" value="{{ absensi6($pd->anggota_rombel_id)->alpa }}"></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

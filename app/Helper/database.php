@@ -52,6 +52,19 @@ function getRombonganBelajarByID6($rombongan_belajar_id) {
     ->where("rombongan_belajar_id", $rombongan_belajar_id)
     ->first();
 }
+function absensi6($anggota_rombel_id) {
+    $cek = erapor6("absensi")->where("anggota_rombel_id", $anggota_rombel_id);
+    if ($cek->count() == 0) :
+        $absen["sakit"] = "";
+        $absen["izin"]  = "";
+        $absen["alpa"]  = "";
+    else:
+        $absen["sakit"] = $cek->first()->sakit;
+        $absen["izin"]  = $cek->first()->izin;
+        $absen["alpa"]  = $cek->first()->alpa;
+    endif;
+    return (object) $absen;
+}
 function semester() {
     return erapor6("ref.semester")
     ->where("periode_aktif", 1)

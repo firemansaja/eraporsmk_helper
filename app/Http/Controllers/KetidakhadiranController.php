@@ -51,6 +51,16 @@ class KetidakhadiranController extends Controller {
                 endif;
             }
             $cek6 = erapor6("anggota_rombel")->where("anggota_rombel_id", $anggota_rombel_id)->count();
+            if ($cek6 > 0) {
+                $cek_absen6 = erapor6("absensi")->where("anggota_rombel_id", $anggota_rombel_id);
+                if ($cek_absen6->count() == 0) :
+                    $data["absensi_id"] = getUUID();
+                    $data["created_at"] = now();
+                    erapor6("absensi")->insert($data);
+                else:
+                    $cek_absen6->update($data);
+                endif;
+            }
         }
         return back()->with("success", "Absensi berhasil disimpan");
         // dd($data);
