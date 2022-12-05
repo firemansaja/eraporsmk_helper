@@ -14,5 +14,5 @@ Route::prefix('ketidakhadiran')->group(function () {
 Route::prefix('sikap')->group(function () {
     Route::get("/", "SikapController@index")->name("sikap");
     Route::get("/nilai/{anggota_rombel_id}", "SikapController@nilai")->name("sikap.nilai");
-    // Route::post("/simpan", "KetidakhadiranController@simpan")->name("ketidakhadiran.simpan");
+    Route::post("/simpan", "SikapController@simpan")->name("sikap.simpan");
 });

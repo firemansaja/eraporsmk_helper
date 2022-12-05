@@ -21,6 +21,12 @@ function getRombonganBelajarByID5($rombongan_belajar_id) {
     ->where("rombongan_belajar_id", $rombongan_belajar_id)
     ->first();
 }
+function getPdByAnggotaRombelID($anggota_rombel_id) {
+    return erapor5("anggota_rombel")
+    ->join("peserta_didik", "peserta_didik.peserta_didik_id", "=", "anggota_rombel.peserta_didik_id")
+    ->where("semester_id", sesi("semester_id"))
+    ->first();
+}
 function absensi5($anggota_rombel_id) {
     $cek = erapor5("absensi")->where("anggota_rombel_id", $anggota_rombel_id);
     if ($cek->count() == 0) :
@@ -72,4 +78,12 @@ function semester() {
 }
 function getUUID() {
     return Str::uuid();
+}
+function nilai_sikap($anggota_rombel_id, $sikap_id, $guru_id) {
+    return erapor5("nilai_sikap")
+    ->where("anggota_rombel_id", $anggota_rombel_id)
+    ->where("sikap_id", $sikap_id)
+    ->where("guru_id", $guru_id)
+    ->whereNull("deleted_at")
+    ->first();
 }
