@@ -48,10 +48,7 @@ class SikapController extends Controller {
         ->whereNull("sikap_induk")
         ->orderBy("sikap_id")
         ->get();
-        $pass["daftar_opsi"] = [
-            1 => "Positif",
-            0 => "Negatif"
-        ];
+        $pass["daftar_opsi"] = ["Negatif", "Positif"];
         return view("nilai_sikap_form", $pass);
     }
     function simpan(Request $req) {
@@ -88,7 +85,7 @@ class SikapController extends Controller {
                     $cek->update($data);
                 endif;
             }
-            return redirect(url("sikap") . "?=rombongan_belajar_id=$rombel->rombongan_belajar_id")->with("success", "Nilai Sikap Berhasil Disimpan!");
+            return redirect(url("sikap") . "?rombongan_belajar_id=$rombel->rombongan_belajar_id")->with("success", "Nilai Sikap Berhasil Disimpan!");
         // endif;
     }
 }

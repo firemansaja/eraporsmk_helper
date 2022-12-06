@@ -69,13 +69,15 @@
                                         </td>
                                         <td>Opsi Sikap</td>
                                         @foreach ($sikap->get() as $skp)
-                                            <td>-</td>
+                                            @php $nilai = nilai_sikap($pd->anggota_rombel_id, $skp->sikap_id, getRombonganBelajarByID5($_GET["rombongan_belajar_id"])->guru_id); @endphp
+                                            <td>{{ ($nilai->opsi_sikap == 1) ? "Positif" : ($nilai->opsi_sikap == 0) ? "Negatif" : "" }}</td>
                                         @endforeach
                                     </tr>
                                     <tr data-anggota_rombel_id="{{ $pd->anggota_rombel_id }}">
                                         <td>Uraian Sikap</td>
                                         @foreach ($sikap->get() as $skp)
-                                            <td>-</td>
+                                            @php $nilai = nilai_sikap($pd->anggota_rombel_id, $skp->sikap_id, getRombonganBelajarByID5($_GET["rombongan_belajar_id"])->guru_id); @endphp
+                                            <td>{{$nilai->uraian_sikap}}</td>
                                         @endforeach
                                     </tr>
                                 @endforeach

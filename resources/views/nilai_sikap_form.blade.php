@@ -50,16 +50,16 @@
                                         <div class="col-sm-6">
                                             <select name="opsi[{{ $skp->sikap_id }}]" class="form-control" required>
                                                 <option value="">== Pilih Opsi ==</option>
-                                                @foreach ($daftar_opsi as $value_a => $value)
-                                                    <option value="{{ $value_a }}>{{ $value }}</option>
-                                                @endforeach
+                                                @for($i = 0; $i <= 1; $i++)
+                                                    <option value="{!! $i !!}" {{ ($nilai->opsi_sikap == $i) ? "selected" : "" }}>{!! $daftar_opsi[$i] !!}</option>
+                                                @endfor
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-bottom: 0px;">
                                         <label class="col-sm-2 control-label">Deskripsi</label>
                                         <div class="col-sm-10">
-                                            <textarea name="deskripsi[{{ $skp->sikap_id }}]" rows="3" class="form-control" required></textarea>
+                                            <textarea name="deskripsi[{{ $skp->sikap_id }}]" rows="3" class="form-control" required>{{ $nilai->uraian_sikap }}</textarea>
                                         </div>
                                     </div>
                                 </div>

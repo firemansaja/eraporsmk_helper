@@ -80,10 +80,18 @@ function getUUID() {
     return Str::uuid();
 }
 function nilai_sikap($anggota_rombel_id, $sikap_id, $guru_id) {
-    return erapor5("nilai_sikap")
+    $cek = erapor5("nilai_sikap")
     ->where("anggota_rombel_id", $anggota_rombel_id)
     ->where("sikap_id", $sikap_id)
     ->where("guru_id", $guru_id)
-    ->whereNull("deleted_at")
-    ->first();
+    ->whereNull("deleted_at");
+    if ($cek->count() == 0) :
+        return (object) [
+            "tanggal_sikap" => null,
+            "opsi_sikap" => null,
+            "uraian_sikap" => null
+        ];
+    else:
+        return $cek->first();
+    endif;
 }
