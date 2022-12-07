@@ -51,7 +51,7 @@
                                             <select name="opsi[{{ $skp->sikap_id }}]" class="form-control" required>
                                                 <option value="">== Pilih Opsi ==</option>
                                                 @for($i = 0; $i <= 1; $i++)
-                                                    <option value="{!! $i !!}" {{ ($nilai->opsi_sikap == $i) ? "selected" : "" }}>{!! $daftar_opsi[$i] !!}</option>
+                                                    <option value="{!! $i !!}" {{ ($nilai->opsi_sikap == $i && $nilai->opsi_sikap != null) ? "selected" : "" }}>{!! $daftar_opsi[$i] !!}</option>
                                                 @endfor
                                             </select>
                                         </div>

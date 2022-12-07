@@ -37,6 +37,7 @@
         </div>
         <div class="col-md-8">
             <a class="btn bg-navy pull-right" id="nilai_sikap_button" disabled>Isi Nilai Sikap</a>
+            <a class="btn bg-green pull-right" id="import" style="margin-right: 3px;" data-toggle="modal" data-target="#modal-import">Import</a>
         </div>
         @if(isset($_GET["rombongan_belajar_id"]))
             <div class="col-xs-12">
@@ -70,7 +71,18 @@
                                         <td>Opsi Sikap</td>
                                         @foreach ($sikap->get() as $skp)
                                             @php $nilai = nilai_sikap($pd->anggota_rombel_id, $skp->sikap_id, getRombonganBelajarByID5($_GET["rombongan_belajar_id"])->guru_id); @endphp
-                                            <td>{{ ($nilai->opsi_sikap == 1) ? "Positif" : ($nilai->opsi_sikap == 0) ? "Negatif" : "" }}</td>
+                                            <td>
+                                                @switch($nilai->opsi_sikap)
+                                                    @case(null) @break
+                                                    @case(1)
+                                                        Positif
+                                                        @break
+                                                    @case(0)
+                                                        Negatif
+                                                        @break
+                                                    $@default
+                                                @endswitch
+                                            </td>
                                         @endforeach
                                     </tr>
                                     <tr data-anggota_rombel_id="{{ $pd->anggota_rombel_id }}">
@@ -93,6 +105,38 @@
             </div>
         @endif
     </div>
+    @if(isset($_GET["rombongan_belajar_id"]))
+        <div class="modal fade" id="modal-import">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body no-padding">
+                        <div class="box no-border">
+                            <div class="box-header bg-black">
+                                <h3 class="box-title">
+                                    <b>
+                                        <i class="fa fa-th"></i>&nbsp; IMPORT NILAI SIKAP
+                                    </b>
+                                </h3>
+                            </div>
+                            <div class="box-body">
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input type="file" name="file" class="form-control">
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('sikap.template', $_GET["rombongan_belajar_id"]) }}" class="btn btn-success pull-left">Download Template</a>
+                                        <button class="btn bg-blue pull-right">Submit</button>
+                                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @section("js")

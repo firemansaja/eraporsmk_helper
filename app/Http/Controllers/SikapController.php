@@ -88,4 +88,45 @@ class SikapController extends Controller {
             return redirect(url("sikap") . "?rombongan_belajar_id=$rombel->rombongan_belajar_id")->with("success", "Nilai Sikap Berhasil Disimpan!");
         // endif;
     }
+    function template($rombongan_belajar_id) {
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load(public_path("template-excel/k13_rev-template_nilai_sikap.xlsx"));
+        $sheet = $spreadsheet->getActiveSheet();
+
+        //START
+        $baris = 7;
+        $nomor = 1;
+
+        $anggota_rombel = erapor5("anggota_rombel")->where("rombongan_belajar_id", $rombongan_belajar_id)
+        ->join("peserta_didik", "peserta_didik.peserta_didik_id", "=", "anggota_rombel.peserta_didik_id")
+        ->where("semester_id", sesi("semester_id"))
+        ->whereNull("anggota_rombel.deleted_at")
+        ->orderBy("nama")
+        ->get();
+
+        $rombongan_belajar = getRombonganBelajarByID5($rombongan_belajar_id);
+        $tahun_pelajaran = semester()->tahun_ajaran_id . "/" . (semester()->tahun_ajaran_id + 1);
+        $sheet->getCell("B2")->setValue("TAHUN PELAJARAN $tahun_pelajaran");
+
+        foreach ($anggota_rombel as $pd) {
+            $rombel = erapor5("rombongan_belajar")->where("rombongan_belajar_id", $pd->rombongan_belajar_id)
+                ->where("semester_id", sesi("semester_id"))
+                ->whereNull("deleted_at")
+                ->first();
+            $sheet->getCell("A" . $baris)->setValue($pd->anggota_rombel_id);
+            $sheet->getCell("B" . $baris)->setValue($nomor);
+            $sheet->getCell("C" . $baris)->setValue($pd->no_induk);
+            $sheet->getCell("D" . $baris)->setValue($pd->nisn);
+            $sheet->getCell("E" . $baris)->setValue(proper($pd->nama));
+            $sheet->getCell("F" . $baris)->setValue($rombel->nama);
+            $nomor++;
+            $baris++;
+        }
+        //END
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="template-sikap_kelas_' . $rombongan_belajar->nama . '.xlsx"');
+        $writer->save('php://output');
+    }
 }
