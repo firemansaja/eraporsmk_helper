@@ -24,7 +24,7 @@
                             <select name="rombongan_belajar_id" class="form-control select2">
                                 <option value="">== Pilih Kelas</option>
                                 @foreach ($rombel5 as $kls5)
-                                    <option value="{{ $kls5->rombongan_belajar_id }}">{{ $kls5->nama }}</option>
+                                    <option value="{{ $kls5->rombongan_belajar_id }}" {{ (isset($_GET['rombongan_belajar_id']) && ($_GET['rombongan_belajar_id'] == $kls5->rombongan_belajar_id)) ? "selected" : "" }} >{{ $kls5->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -37,7 +37,9 @@
         </div>
         <div class="col-md-8">
             <a class="btn bg-navy pull-right" id="nilai_sikap_button" disabled>Isi Nilai Sikap</a>
-            <a class="btn bg-green pull-right" id="import" style="margin-right: 3px;" data-toggle="modal" data-target="#modal-import">Import</a>
+            @if(isset($_GET["rombongan_belajar_id"]))
+                <a class="btn bg-green pull-right" id="import" style="margin-right: 3px;" data-toggle="modal" data-target="#modal-import">Import</a>
+            @endif
         </div>
         @if(isset($_GET["rombongan_belajar_id"]))
             <div class="col-xs-12">
@@ -119,14 +121,15 @@
                                 </h3>
                             </div>
                             <div class="box-body">
-                                <form action="" method="post" enctype="multipart/form-data">
+                                <form action="{{ route("sikap.import") }}" method="post" enctype="multipart/form-data">
                                     @csrf
+                                    <input type="hidden" name="rombongan_belajar_id" value="{{ $_GET["rombongan_belajar_id"] }}">
                                     <div class="form-group">
                                         <input type="file" name="file" class="form-control">
                                     </div>
                                     <div>
                                         <a href="{{ route('sikap.template', $_GET["rombongan_belajar_id"]) }}" class="btn btn-success pull-left">Download Template</a>
-                                        <button class="btn bg-blue pull-right">Submit</button>
+                                        <button class="btn bg-blue pull-right" name="submit">Submit</button>
                                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Tutup</button>
                                     </div>
                                 </form>

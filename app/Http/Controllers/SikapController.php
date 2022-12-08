@@ -129,4 +129,48 @@ class SikapController extends Controller {
         header('Content-Disposition: attachment; filename="template-sikap_kelas_' . $rombongan_belajar->nama . '.xlsx"');
         $writer->save('php://output');
     }
+    function import(Request $req) {
+        if ($req->has("submit")) :
+            error_reporting(0);
+            //Move to tmp
+            $file = $req->file("file");
+            $path = $file->move(public_path("storage/tmp/", $file->getClientOriginalName()));
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $spreadsheet = $reader->load($path); // Load file yang tadi diupload ke folder tmp
+            $sheet = $spreadsheet->getActiveSheet()->toArray();
+            $rombel = getRombonganBelajarByID5($req->rombongan_belajar_id);
+            foreach ($sheet as $key => $value) {
+                if ($key < 6 || $key >= 42) continue; // Mulai dari baris 7
+                if ($value[0] == "") break;
+                $array = [1 => 7,7 => 10,12 => 13,19 => 16,27 => 19];
+                foreach ($array as $key2 => $val) {
+                    $cek = erapor5("nilai_sikap")->where([
+                        "guru_id" => $rombel->guru_id,
+                        "anggota_rombel_id" => $value[0],
+                        "sikap_id" => $key2,
+                        "deleted_at" => null
+                    ]);
+                    $data = [
+                        "sekolah_id" => sesi("sekolah_id"),
+                        "anggota_rombel_id" => $value[0],
+                        "guru_id" => $rombel->guru_id,
+                        "sikap_id" => $key2,
+                        "tanggal_sikap" => $value[$val - 1],
+                        "opsi_sikap" => ($value[$val] == "Positif") ? 1 : 0,
+                        "uraian_sikap" => $value[$val + 1],
+                        "updated_at" => now(),
+                        "last_sync" => now(),
+                    ];
+                    if ($cek->count() == 0) :
+                        $data["nilai_sikap_id"] = getUUID();
+                        $data["created_at"] = now();
+                        erapor5("nilai_sikap")->insert($data);
+                    else:
+                        $cek->update($data);
+                    endif;
+                }
+            }
+            return back()->with(["success", "Nilai Sikap berhasil disimpan!"]);
+        endif;
+    }
 }

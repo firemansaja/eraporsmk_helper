@@ -16,4 +16,5 @@ Route::prefix('sikap')->group(function () {
     Route::get("/template/{rombongan_belajar_id}", "SikapController@template")->name("sikap.template");
     Route::get("/nilai/{anggota_rombel_id}", "SikapController@nilai")->name("sikap.nilai");
     Route::post("/simpan", "SikapController@simpan")->name("sikap.simpan");
+    Route::post("/import", "SikapController@import")->name("sikap.import");
 });
