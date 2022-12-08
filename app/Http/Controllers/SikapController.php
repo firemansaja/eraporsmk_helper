@@ -8,15 +8,6 @@ use Illuminate\Support\Facades\DB;
 class SikapController extends Controller {
     function index() {
         $pass["nomor"] = 1;
-        $pass["rombel6"] = erapor6("rombongan_belajar")
-        ->where("semester_id", sesi("semester_id"))
-        ->where("jenis_rombel", 1)
-        ->where("tingkat", 10)
-        ->whereNull("deleted_at")
-        ->orderBy("tingkat")
-        ->orderBy("jurusan_id")
-        ->orderBy("nama")
-        ->get();
         $pass["rombel5"] = erapor5("rombongan_belajar")
         ->where("semester_id", sesi("semester_id"))
         ->where("jenis_rombel", 1)

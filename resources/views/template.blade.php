@@ -61,6 +61,11 @@
                                 <i class="fa fa-book"></i> <span>Nilai Sikap</span>
                             </a>
                         </li>
+                        <li class="@yield('karakter')">
+                            <a href="{{ route('karakter')}}">
+                                <i class="fa fa-book"></i> <span>Nilai Karakter</span>
+                            </a>
+                        </li>
                         <li class="@yield('ketidakhadiran')">
                             <a href="{{ route('ketidakhadiran') }}">
                                 <i class="fa fa-clock-o"></i> <span>Ketidakhadiran</span>

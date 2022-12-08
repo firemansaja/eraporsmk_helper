@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         "/ketidakhadiran/simpan",
         "/sikap/simpan",
         "/sikap/import",
+        "/karakter/simpan",
     ];
 }

@@ -95,3 +95,14 @@ function nilai_sikap($anggota_rombel_id, $sikap_id, $guru_id) {
         return $cek->first();
     endif;
 }
+function nilai_karakter($anggota_rombel_id) {
+    $cek = erapor5("catatan_ppk")
+    ->where("anggota_rombel_id", $anggota_rombel_id)
+    ->join("nilai_karakter", "nilai_karakter.catatan_ppk_id", "=", "catatan_ppk.catatan_ppk_id");
+    if ($cek->count() == 0) :
+        return [
+
+        ];
+    else:
+    endif;
+}
