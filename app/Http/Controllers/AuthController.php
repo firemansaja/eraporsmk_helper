@@ -52,4 +52,8 @@ class AuthController extends Controller {
             endif;
         endif;
     }
+    function logout() {
+        Session::flush();
+        return redirect("/");
+    }
 }

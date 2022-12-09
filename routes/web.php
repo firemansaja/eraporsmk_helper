@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", "AuthController@index");
+Route::get("/logout", "AuthController@logout");
 Route::post("/login", "AuthController@login")->name("login");
 
 Route::get("/home", "WelcomeController@home")->name("home");
@@ -22,7 +23,7 @@ Route::prefix('sikap')->group(function () {
 Route::prefix('karakter')->group(function () {
     Route::get("/", "KarakterController@index")->name("karakter");
     Route::get("/nilai/{anggota_rombel_id}", "KarakterController@nilai")->name("karakter.nilai");
-    // Route::get("/template/{rombongan_belajar_id}", "SikapController@template")->name("sikap.template");
+    Route::get("/template/{rombongan_belajar_id}", "KarakterController@template")->name("karakter.template");
     Route::post("/simpan", "KarakterController@simpan")->name("karakter.simpan");
-    // Route::post("/import", "SikapController@import")->name("sikap.import");
+    Route::post("/import", "KarakterController@import")->name("karakter.import");
 });
