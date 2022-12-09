@@ -24,14 +24,17 @@
                             <select name="rombongan_belajar_id" class="form-control select2">
                                 <option value="">== Pilih Kelas ==</option>
                                 @foreach ($rombel6 as $kls6)
-                                    <option value="{{ $kls6->rombongan_belajar_id }}">{{ $kls6->nama }}</option>
+                                    <option value="{{ $kls6->rombongan_belajar_id }}" {{ (isset($_GET["rombongan_belajar_id"]) && $_GET["rombongan_belajar_id"] == $kls6->rombongan_belajar_id) ? "selected" : "" }}>{{ $kls6->nama }}</option>
                                 @endforeach
                                 @foreach ($rombel5 as $kls5)
-                                    <option value="{{ $kls5->rombongan_belajar_id }}">{{ $kls5->nama }}</option>
+                                    <option value="{{ $kls5->rombongan_belajar_id }}" {{ (isset($_GET["rombongan_belajar_id"]) && $_GET["rombongan_belajar_id"] == $kls5->rombongan_belajar_id) ? "selected" : "" }}>{{ $kls5->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <button class="btn bg-blue pull-right"><i class="fa fa-search"></i>&nbsp; Cari</button>
+                        @if(isset($_GET["rombongan_belajar_id"]))
+                            <a class="btn bg-green pull-right" id="import" style="margin-right: 3px;" data-toggle="modal" data-target="#modal-import">Import</a>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -99,4 +102,37 @@
             </div>
         @endif
     </div>
+    @if(isset($_GET["rombongan_belajar_id"]))
+        <div class="modal fade" id="modal-import">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body no-padding">
+                        <div class="box no-border">
+                            <div class="box-header bg-black">
+                                <h3 class="box-title">
+                                    <b>
+                                        <i class="fa fa-th"></i>&nbsp; IMPORT DATA KETIDAKHADIRAN
+                                    </b>
+                                </h3>
+                            </div>
+                            <div class="box-body">
+                                <form action="{{ route("ketidakhadiran.import") }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="rombongan_belajar_id" value="{{ $_GET["rombongan_belajar_id"] }}">
+                                    <div class="form-group">
+                                        <input type="file" name="file" class="form-control">
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('ketidakhadiran.template', $_GET["rombongan_belajar_id"]) }}" class="btn btn-success pull-left">Download Template</a>
+                                        <button class="btn bg-blue pull-right" name="submit">Submit</button>
+                                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
